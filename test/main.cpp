@@ -48,7 +48,7 @@ int main() {
 	int l = 100;
 	int m = 50000;
 
-	//make_reference_DNA(n);
+	make_reference_DNA(n);
 	make_my_DNA(l);
 	make_shortread(l, m);
 

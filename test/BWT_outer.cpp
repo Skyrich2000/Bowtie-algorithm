@@ -207,8 +207,8 @@ void BWT_indexing(string &T) {
 	T.push_back('$');
 
 	cout << "Fill the rest" << "\n";
-	//file_num = BWT_filltherest(FILE_SIZE, T);
-	file_num = 30;
+	file_num = BWT_filltherest(FILE_SIZE, T);
+//	file_num = 30;
 	cout << "Sort" << "\n";
 	BWT_sort(file_num);
 
