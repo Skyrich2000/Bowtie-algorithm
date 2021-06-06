@@ -173,10 +173,10 @@ void BWT_indexing(string &T) {
 	T.push_back('$');
 
 	cout << "Fill the rest" << "\n";
-	file_num = BWT_filltherest(SIZE, T);
+	//file_num = BWT_filltherest(SIZE, T);
 
 	cout << "Sort" << "\n";
-	BWT_sort(file_num);
+//	BWT_sort(file_num);
 
 	cout << "Build final index table" << endl;
 	string line;
@@ -187,7 +187,7 @@ void BWT_indexing(string &T) {
 		if (line == "")
 			continue;
 		auto _line = split(line);
-		string line = _line.first + " " + _line.second.back();
+		string line = _line.first + " " + _line.second.back() + "\n";
 		f_out.write(line.c_str(), line.size());
 	}
 	f_in.close();
@@ -200,9 +200,10 @@ pair<vector<int>, string> BWT(string T) {
 	string ret;
 	vector<int> index;
 	string line;
-	ifstream f("bwt_index_table.txt");
 
-	BWT_indexing(T);
+	// DO INDEXING!!
+	//BWT_indexing(T);
+	ifstream f("bwt_index_table.txt");
 	while (f) {
 		getline(f, line);
 		if (line == "")
@@ -215,7 +216,7 @@ pair<vector<int>, string> BWT(string T) {
 	return {index, ret};
 }
 
-void BWT_find_pre(pair<vector<int>, string> bwt, vector<int> &charset_index, vector<vector<int>> &tally, vector<int> &start_index) {
+void BWT_find_pre(pair<vector<int>, string>& bwt, vector<int> &charset_index, vector<vector<int>> &tally, vector<int> &start_index) {
 	string last;
 	string front;
 	string charset;
@@ -250,7 +251,7 @@ void BWT_find_pre(pair<vector<int>, string> bwt, vector<int> &charset_index, vec
 	start_index.push_back(front.size());
 }
 
-vector<int> BWT_find(pair<vector<int>, string> bwt, string q, vector<int> &charset_index, vector<vector<int>> &tally, vector<int> &start_index) {
+vector<int> BWT_find(pair<vector<int>, string>& bwt, string q, vector<int> &charset_index, vector<vector<int>> &tally, vector<int> &start_index) {
 	vector<int> ret;
 
 	// querying

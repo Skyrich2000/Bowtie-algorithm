@@ -6,7 +6,7 @@
 /*   By: ycha <ycha@gmail.com>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 09:39:39 by ycha              #+#    #+#             */
-/*   Updated: 2021/06/06 09:02:49 by ycha             ###   ########.fr       */
+/*   Updated: 2021/06/06 10:02:29 by ycha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 #include <random>
 #include <vector>
 #include "main.h"
-#define RSIZE 200000
+
 using namespace std;
 
-void make_reference_DNA() {
-    int SIZE;
+void make_reference_DNA(int SIZE) {
 	ifstream readFile;
 	string referenceFile = "chr1.fna";
 
@@ -47,14 +46,14 @@ void make_reference_DNA() {
     cout << referenceFile << " 읽기 완료 . . ." << endl;
 
     cout << referenceFile << "의 총 길이 : " <<  reference.size() << endl;
-    SIZE = reference.size();
 	ofstream writeFile;
     string title = "reference_DNA.txt";
 
     cout << title << " 생성 중 . . ." << endl;
+    cout << title << "의 총 길이 : " <<  SIZE << endl;
 
 	writeFile.open(title);
-	writeFile.write(reference.c_str(), RSIZE);
+	writeFile.write(reference.c_str(), SIZE);
     writeFile.close();
 
     cout << title << " 생성 완료 . . ." << endl;
