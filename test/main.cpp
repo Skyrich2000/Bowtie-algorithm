@@ -44,9 +44,9 @@ void compare(string title1, string title2) {
 }
 
 int main() {
-	int n = 100000;
+	int n = 500000;
 	int l = 100;
-	int m = 1000;
+	int m = 50000;
 
 	//make_reference_DNA(n);
 	make_my_DNA(l);

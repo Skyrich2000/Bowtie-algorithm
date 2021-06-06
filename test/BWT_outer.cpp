@@ -9,7 +9,7 @@
 #include <sstream>
 #include "main.h"
 
-#define FILE_SIZE 5
+#define FILE_SIZE 30
 #define MAX_SIZE 5000000000
 
 using namespace std;
@@ -58,13 +58,14 @@ void sort_one(string input, string output) {
 		table.push_back(split(str1));
 	}
 	sort(table.begin(), table.end(), compare);
+	cout << " W" << endl;
 	for (auto i : table) {
 		str1 = i.first + " " + i.second + "\n";
-		output_string += str1;
-		//f_out.write(str1.c_str(), str1.size());
+		f_out << str1;
+	//	output_string += str1;
 	}
-	cout << "   W";
-	f_out << output_string;
+	//cout << " W" << endl;
+	//f_out << output_string;
 	cout << input << " : sort done" << endl;
 	f_in.close();
 	f_out.close();
@@ -100,12 +101,12 @@ void sort_merge(string input1, string input2, string output) {
 				continue;
 		}
 		if (output_string.size() > MAX_SIZE) {
-			cout << "   W";
+			cout << " W" << endl;
 			f_out << output_string;
 			output_string = "";
 		}
 	}
-	cout << "   W";
+	cout << " W" << endl;
 	f_out << output_string;
 	output_string = "";
 	while(f_in1) {
@@ -114,12 +115,12 @@ void sort_merge(string input1, string input2, string output) {
 		if (str1 == "")
 			continue;
 		if (output_string.size() > MAX_SIZE) {
-			cout << "   W";
+			cout << " W" << endl;
 			f_out << output_string;
 			output_string = "";
 		}
 	}
-	cout << "   W";
+	cout << " W" << endl;
 	f_out << output_string;
 	output_string = "";
 	while(f_in2) {
@@ -128,12 +129,12 @@ void sort_merge(string input1, string input2, string output) {
 		if (str2 == "")
 			continue;
 		if (output_string.size() > MAX_SIZE) {
-			cout << "   W";
+			cout << " W" << endl;
 			f_out << output_string;
 			output_string = "";
 		}
 	}
-	cout << "   W";
+	cout << " W" << endl;
 	f_out << output_string;
 
 	f_in1.close();
@@ -190,7 +191,7 @@ static int BWT_filltherest(int n, string T) { // 나머지 부분 채우는 함�
 			T.push_back(T[0]);
 			T.erase(0, 1);
 		}
-		cout << "   W";
+		cout << " W" << endl;
 		f << output;
 		cout << file_name + ft_itoa(file_index) + ".txt" << " done !" << endl;
 		f.close();
@@ -206,8 +207,8 @@ void BWT_indexing(string &T) {
 	T.push_back('$');
 
 	cout << "Fill the rest" << "\n";
-	file_num = BWT_filltherest(FILE_SIZE, T);
-
+	//file_num = BWT_filltherest(FILE_SIZE, T);
+	file_num = 30;
 	cout << "Sort" << "\n";
 	BWT_sort(file_num);
 
@@ -237,7 +238,7 @@ pair<vector<int>, string> BWT(string T) {
 	string line;
 
 	// DO INDEXING!!
-	//BWT_indexing(T);
+	BWT_indexing(T);
 
 	cout << "open index table" << endl;
 	ifstream f("bwt_index_table.txt");
