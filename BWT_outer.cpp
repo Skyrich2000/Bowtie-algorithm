@@ -22,10 +22,7 @@ static pair<string, string> split(string input) {
 }
 
 static string ft_itoa(int i) {
-    char num_buffer[20];
-
-    itoa(i, num_buffer, 10);
-	return num_buffer;
+	return to_string(i);
 }
 
 void BWT_print(vector<pair<int, string>> &table) {
