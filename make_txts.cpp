@@ -54,7 +54,7 @@ void make_reference_DNA() {
     cout << title << " 생성 중 . . ." << endl;
 
 	writeFile.open(title);
-	writeFile.write(reference.c_str(), 200000);
+	writeFile.write(reference.c_str(), 10000);
     writeFile.close();
 
     cout << title << " 생성 완료 . . ." << endl;
