@@ -166,15 +166,10 @@ static int BWT_filltherest(int n, string T) { // 나머지 부분 채우는 함�
 	return file_index;
 }
 
-pair<vector<int>, string> BWT(string T) {
+void BWT_indexing(string &T) {
 	ifstream f_final;
 	int file_num;
-	string ret;
-	//vector<pair<int, string>> table(T.size() + 1);
-	vector<int> index;
 
-	if (!f_final.open("bwt_index_table.txt")) {
-//	cout << "T : " << T << "\n\n";
 	T.push_back('$');
 
 	cout << "Fill the rest" << "\n";
@@ -185,26 +180,34 @@ pair<vector<int>, string> BWT(string T) {
 
 	cout << "Build final index table" << endl;
 	string line;
-	ifstream f("bwt_sort_result.txt");
-	while (f) {
-		getline(f, line);
+	ifstream f_in("bwt_sort_result.txt");
+	ofstream f_out("bwt_index_table.txt");
+	while (f_in) {
+		getline(f_in, line);
 		if (line == "")
 			continue;
 		auto _line = split(line);
-		ret.push_back(_line.second.back()); // 문자열의 마지막부분을 더하여 BWT(T)를 완성한다.
-		index.push_back(stoi(_line.first));
+		string line = _line.first + " " + _line.second.back();
+		f_out.write(line.c_str(), line.size());
 	}
-	f.close();
-	}
+	f_in.close();
+	f_out.close();
+
 	cout << "Done " << endl;
+}
+
+pair<vector<int>, string> BWT(string T) {
+	string ret;
+	vector<int> index;
 	string line;
-	ifstream f("bwt_sort_result.txt");
+	ifstream f("bwt_index_table.txt");
+
 	while (f) {
 		getline(f, line);
 		if (line == "")
 			continue;
 		auto _line = split(line);
-		ret.push_back(_line.second.back()); // 문자열의 마지막부분을 더하여 BWT(T)를 완성한다.
+		ret.push_back(_line.second[0]); // 문자열의 마지막부분을 더하여 BWT(T)를 완성한다.
 		index.push_back(stoi(_line.first));
 	}
 	f.close();
