@@ -8,7 +8,7 @@
 #include <math.h>
 #include <sstream>
 #include "main.h"
-#define SIZE 100
+#define SIZE 10
 using namespace std;
 
 static pair<string, string> split(string input) {
@@ -151,6 +151,7 @@ static int BWT_filltherest(int n, string T) { // 나머지 부분 채우는 함�
 	little_n = ceil(T.size() / (double)n);
 	cout << T.size() << " : " << little_n << endl;
 	for (file_index = 0 ; file_index < n && index < T.size(); file_index++) {
+		cout << file_name + ft_itoa(file_index) + ".txt" << " doing !" << endl;
 		f.open(file_name + ft_itoa(file_index) + ".txt");
 		for (int j = 0; j < little_n && index < T.size(); j++) {
 			line = ft_itoa(index++) + " " + T + "\n";
@@ -166,12 +167,14 @@ static int BWT_filltherest(int n, string T) { // 나머지 부분 채우는 함�
 }
 
 pair<vector<int>, string> BWT(string T) {
+	ifstream f_final;
 	int file_num;
 	string ret;
 	//vector<pair<int, string>> table(T.size() + 1);
 	vector<int> index;
 
-	cout << "T : " << T << "\n\n";
+	if (!f_final.open("bwt_index_table.txt")) {
+//	cout << "T : " << T << "\n\n";
 	T.push_back('$');
 
 	cout << "Fill the rest" << "\n";
@@ -180,6 +183,19 @@ pair<vector<int>, string> BWT(string T) {
 	cout << "Sort" << "\n";
 	BWT_sort(file_num);
 
+	cout << "Build final index table" << endl;
+	string line;
+	ifstream f("bwt_sort_result.txt");
+	while (f) {
+		getline(f, line);
+		if (line == "")
+			continue;
+		auto _line = split(line);
+		ret.push_back(_line.second.back()); // 문자열의 마지막부분을 더하여 BWT(T)를 완성한다.
+		index.push_back(stoi(_line.first));
+	}
+	f.close();
+	}
 	cout << "Done " << endl;
 	string line;
 	ifstream f("bwt_sort_result.txt");

@@ -6,7 +6,7 @@
 /*   By: ycha <ycha@gmail.com>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 09:39:39 by ycha              #+#    #+#             */
-/*   Updated: 2021/06/06 08:54:48 by ycha             ###   ########.fr       */
+/*   Updated: 2021/06/06 09:02:49 by ycha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <random>
 #include <vector>
 #include "main.h"
-#define RSIZE 1000000
+#define RSIZE 200000
 using namespace std;
 
 void make_reference_DNA() {
