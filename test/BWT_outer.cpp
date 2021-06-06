@@ -202,6 +202,7 @@ pair<vector<int>, string> BWT(string T) {
 	string line;
 	ifstream f("bwt_index_table.txt");
 
+	BWT_indexing(T);
 	while (f) {
 		getline(f, line);
 		if (line == "")
