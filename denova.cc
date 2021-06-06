@@ -151,7 +151,7 @@ public:
 
 void make_reference_DNA() {
     ifstream readFile;
-    string referenceFile = "test2.fna";
+    string referenceFile = "chr1.fna";
 
     cout << referenceFile << " 읽는 중 . . ." << endl;
 
@@ -174,9 +174,9 @@ void make_reference_DNA() {
     }
     cout << referenceFile << " 읽기 완료 . . ." << endl;
 
-    cout << referenceFile << "의 총 길이 : " << reference.size() << endl;
+    SIZE = 10000;
+    cout << referenceFile << "의 총 길이 : " << SIZE << endl;
     //cout << "Ref : " << reference << endl;
-    SIZE = reference.size();
     // n = SIZE;
     //n = SIZE;
     ofstream writeFile;
@@ -498,6 +498,7 @@ void restore_DNA(int k, int n) {
     }
 
 
+
     //////////////////// 까지 드브루인 만들기
 
     cout << "created Debruijn Graph" << endl;
@@ -539,12 +540,11 @@ void restore_DNA(int k, int n) {
 
 }
 
-
 int main() {
 
 
     int k = 100;
-    int n = 100000;
+    int n = 60000;
 
     make_reference_DNA();
     make_my_DNA(k);
@@ -559,10 +559,13 @@ int main() {
     //    restore_DNA(k, n);
 
     vector<string> short_read = read_shortread();
+    cout << "read done" << endl;
     DeBruijn graph = make_de_graph(short_read, k, n);
+    cout << "find_start " << endl;
     graph.find_start();
 
     vector<string> routes;
+    cout << "find_route " << endl;
     find_route(graph, routes, k);
     end = clock();
 
