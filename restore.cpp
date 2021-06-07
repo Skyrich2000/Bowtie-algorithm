@@ -48,7 +48,7 @@ void restore_DNA(int k, int n) { // 10-3 BruteForce 버전입니다.
 	int flag;
 	int mismatch = 3;
 	int little_k = k / (mismatch + 1);
-	printf("mismatch : %d , k_per_mismatch : %d\n", k, little_k);
+	printf("mismatch : %d , k_per_mismatch : %d\n", mismatch, little_k);
 	string shortRead;
 	string restoreText(size, '^');
 	ifstream fin;
@@ -56,16 +56,21 @@ void restore_DNA(int k, int n) { // 10-3 BruteForce 버전입니다.
 	for (int i = 0; i < n; i++) {
 		getline(fin, shortRead);
 		if (i % 100 == 0)
-			cout << i << " 번째 shortRead :" << shortRead << " 처리중 . . ." << " (" << (double)i / n * 100 << ")" <<  endl;
+			cout << i << " 번째 shortRead :" << " 처리중 . . ." << " (" << (double)i / n * 100 << ")" <<  endl;
 		for (int j = 0; j < mismatch + 1; j++) {
 			flag = 0;
-			for (auto index : BWT_find(bwt, shortRead.substr(little_k * j, little_k), charset_index, tally, start_index))
+			for (auto index : BWT_find(bwt, shortRead.substr(little_k * j, little_k), charset_index, tally, start_index)) {
+				if (index == -1)
+					continue;
 				if (check_valid_index(targetText, shortRead, index - little_k * j, mismatch)) {
 					for (int l = 0; l < k; l++)
 						restoreText[index - little_k * j + l] = shortRead[l]; // my dna에 추가
 					flag = 1;
 					break;
 				}
+				if (flag)
+					break;
+			}
 			if (flag)
 				break;
 		}

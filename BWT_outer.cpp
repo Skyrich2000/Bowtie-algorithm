@@ -8,7 +8,10 @@
 #include <math.h>
 #include <sstream>
 #include "main.h"
-#define SIZE 100
+
+#define FILE_SIZE 5
+#define MAX_SIZE 5000000000
+
 using namespace std;
 
 static pair<string, string> split(string input) {
@@ -42,6 +45,7 @@ void sort_one(string input, string output) {
 	ifstream f_in;
 	ofstream f_out;
 	vector<pair<string, string>> table;
+	string output_string;
 
 	f_in.open(input);
 	f_out.open(output);
@@ -54,10 +58,14 @@ void sort_one(string input, string output) {
 		table.push_back(split(str1));
 	}
 	sort(table.begin(), table.end(), compare);
+	cout << " W" << endl;
 	for (auto i : table) {
 		str1 = i.first + " " + i.second + "\n";
-		f_out.write(str1.c_str(), str1.size());
+		f_out << str1;
+	//	output_string += str1;
 	}
+	//cout << " W" << endl;
+	//f_out << output_string;
 	cout << input << " : sort done" << endl;
 	f_in.close();
 	f_out.close();
@@ -66,6 +74,7 @@ void sort_one(string input, string output) {
 void sort_merge(string input1, string input2, string output) {
 	string str1;
 	string str2;
+	string output_string;
 	ifstream f_in1;
 	ifstream f_in2;
 	ofstream f_out;
@@ -78,35 +87,56 @@ void sort_merge(string input1, string input2, string output) {
 
 	getline(f_in1, str1);
 	getline(f_in2, str2);
+	output_string = "";
 	while (f_in1 && f_in2) {
 		if (compare(split(str1), split(str2))) {
-			f_out.write(str1.c_str(), str1.size());
-			f_out.write("\n", 1);
+			output_string += str1 + "\n";
 			getline(f_in1, str1);
 			if (str1 == "")
 				continue;
 		} else {
-			f_out.write(str2.c_str(), str2.size());
-			f_out.write("\n", 1);
+			output_string += str2 + "\n";
 			getline(f_in2, str2);
 			if (str2 == "")
 				continue;
 		}
+		if (output_string.size() > MAX_SIZE) {
+			cout << " W" << endl;
+			f_out << output_string;
+			output_string = "";
+		}
 	}
+	cout << " W" << endl;
+	f_out << output_string;
+	output_string = "";
 	while(f_in1) {
-		f_out.write(str1.c_str(), str1.size());
-		f_out.write("\n", 1);
+		output_string += str1 + "\n";
 		getline(f_in1, str1);
 		if (str1 == "")
 			continue;
+		if (output_string.size() > MAX_SIZE) {
+			cout << " W" << endl;
+			f_out << output_string;
+			output_string = "";
+		}
 	}
+	cout << " W" << endl;
+	f_out << output_string;
+	output_string = "";
 	while(f_in2) {
-		f_out.write(str2.c_str(), str2.size());
-		f_out.write("\n", 1);
+		output_string += str2 + "\n";
 		getline(f_in2, str2);
 		if (str2 == "")
 			continue;
+		if (output_string.size() > MAX_SIZE) {
+			cout << " W" << endl;
+			f_out << output_string;
+			output_string = "";
+		}
 	}
+	cout << " W" << endl;
+	f_out << output_string;
+
 	f_in1.close();
 	f_in2.close();
 	f_out.close();
@@ -144,6 +174,7 @@ static int BWT_filltherest(int n, string T) { // 나머지 부분 채우는 함�
 	int little_n;
 	string file_name;
 	string line;
+	string output;
 	ofstream f;
 
 	index = 0;
@@ -151,13 +182,17 @@ static int BWT_filltherest(int n, string T) { // 나머지 부분 채우는 함�
 	little_n = ceil(T.size() / (double)n);
 	cout << T.size() << " : " << little_n << endl;
 	for (file_index = 0 ; file_index < n && index < T.size(); file_index++) {
+		output = "";
+		cout << file_name + ft_itoa(file_index) + ".txt" << " doing !" << endl;
 		f.open(file_name + ft_itoa(file_index) + ".txt");
 		for (int j = 0; j < little_n && index < T.size(); j++) {
 			line = ft_itoa(index++) + " " + T + "\n";
-			f.write(line.c_str(), line.size());
+			output += line;
 			T.push_back(T[0]);
 			T.erase(0, 1);
 		}
+		cout << " W" << endl;
+		f << output;
 		cout << file_name + ft_itoa(file_index) + ".txt" << " done !" << endl;
 		f.close();
 	}
@@ -165,37 +200,61 @@ static int BWT_filltherest(int n, string T) { // 나머지 부분 채우는 함�
 	return file_index;
 }
 
-pair<vector<int>, string> BWT(string T) {
+void BWT_indexing(string &T) {
+	ifstream f_final;
 	int file_num;
-	string ret;
-	//vector<pair<int, string>> table(T.size() + 1);
-	vector<int> index;
 
-	cout << "T : " << T << "\n\n";
 	T.push_back('$');
 
 	cout << "Fill the rest" << "\n";
-	file_num = BWT_filltherest(SIZE, T);
+	file_num = BWT_filltherest(FILE_SIZE, T);
 
 	cout << "Sort" << "\n";
 	BWT_sort(file_num);
 
-	cout << "Done " << endl;
+	cout << "Build final index table" << endl;
 	string line;
-	ifstream f("bwt_sort_result.txt");
+	string output_string;
+	ifstream f_in("bwt_sort_result.txt");
+	ofstream f_out("bwt_index_table.txt");
+	output_string = "";
+	while (f_in) {
+		getline(f_in, line);
+		if (line == "")
+			continue;
+		auto _line = split(line);
+		output_string += _line.first + " " + _line.second.back() + "\n";
+	}
+	f_out << output_string;
+	f_in.close();
+	f_out.close();
+
+	cout << "Done " << endl;
+}
+
+pair<vector<int>, string> BWT(string T) {
+	string ret;
+	vector<int> index;
+	string line;
+
+	// DO INDEXING!!
+	BWT_indexing(T);
+
+	cout << "open index table" << endl;
+	ifstream f("bwt_index_table.txt");
 	while (f) {
 		getline(f, line);
 		if (line == "")
 			continue;
 		auto _line = split(line);
-		ret.push_back(_line.second.back()); // 문자열의 마지막부분을 더하여 BWT(T)를 완성한다.
+		ret.push_back(_line.second[0]); // 문자열의 마지막부분을 더하여 BWT(T)를 완성한다.
 		index.push_back(stoi(_line.first));
 	}
 	f.close();
 	return {index, ret};
 }
 
-void BWT_find_pre(pair<vector<int>, string> bwt, vector<int> &charset_index, vector<vector<int>> &tally, vector<int> &start_index) {
+void BWT_find_pre(pair<vector<int>, string>& bwt, vector<int> &charset_index, vector<vector<int>> &tally, vector<int> &start_index) {
 	string last;
 	string front;
 	string charset;
@@ -230,7 +289,7 @@ void BWT_find_pre(pair<vector<int>, string> bwt, vector<int> &charset_index, vec
 	start_index.push_back(front.size());
 }
 
-vector<int> BWT_find(pair<vector<int>, string> bwt, string q, vector<int> &charset_index, vector<vector<int>> &tally, vector<int> &start_index) {
+vector<int> BWT_find(pair<vector<int>, string>& bwt, string q, vector<int> &charset_index, vector<vector<int>> &tally, vector<int> &start_index) {
 	vector<int> ret;
 
 	// querying

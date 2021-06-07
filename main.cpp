@@ -39,24 +39,28 @@ void compare(string title1, string title2) {
     }
 
     double rate = (double)correct / reference.size();
-    cout << "정확도는 " << rate << " 입니다 . " << endl;
+	cout << "acc : " << rate << endl;
 
 }
 
 int main() {
-	make_reference_DNA();
-    make_my_DNA(100);
-    make_shortread(100, 30000);
+	int n = 100000;
+	int l = 100;
+	int m = 100000;
+
+	make_reference_DNA(n);
+	make_my_DNA(l);
+	make_shortread(l, m);
 
     clock_t start, end;
     start = clock();
-    restore_DNA(100, 30000); // 여기 부분을 구현하시면 됩니다
+    restore_DNA(l, m); // 여기 부분을 구현하시면 됩니다
     end = clock();
     double duration = (double)(end - start) / CLOCKS_PER_SEC;
-    cout << "걸린시간(sec) : " << duration << "s" << endl;
+    cout << "duration(sec) : " << duration << "s" << endl;
 
     string title1 = "my_DNA.txt";
     string title2 = "restore.txt";
-    compare(title1, title2);
+	compare(title1, title2);
     return 0;
 }
