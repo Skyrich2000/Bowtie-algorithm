@@ -15,3 +15,6 @@ wget http://skyrich3.synology.me/~Huni/chr1.fna
 * main.cpp 에서 n, m, l 값 조정
 * BWT_outer.cpp 에서 외부정렬시 사용할 파일 개수 설정
 * BW matrix 가 완성되면, BWT_outer.cpp 241번째 줄 주석처리 하여 사용
+
+---
+[참고](https://www.youtube.com/watch?v=kvVGj5V65io)
