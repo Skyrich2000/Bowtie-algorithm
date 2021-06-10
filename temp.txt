@@ -4,20 +4,17 @@
 CREATE TABLE Q1_CLASS_1NF (
 StudentID         CHAR(10)     NOT NULL,
 StudentName       VARCHAR2(10)    NOT NULL,
-ClassName       VARCHAR2(10)    NOT NULL,
-PRIMARY KEY (StudentID)
+ClassName       VARCHAR2(10)    NOT NULL
 );
 
 CREATE TABLE Q1_STUDENT_2NF (
 StudentID         CHAR(10)     NOT NULL,
-StudentName       VARCHAR2(10)    NOT NULL,
-PRIMARY KEY (StudentID)
+StudentName       VARCHAR2(10)    NOT NULL
 );
 
 CREATE TABLE Q1_CLASS_2NF (
 StudentID         CHAR(10)     NOT NULL,
-ClassName       VARCHAR2(10)    NOT NULL,
-PRIMARY KEY (StudentID)
+ClassName       VARCHAR2(10)    NOT NULL
 );
 
 DESC Q1_CLASS_1NF;
@@ -59,20 +56,17 @@ SELECT * FROM Q1_CLASS_2NF;
 CREATE TABLE Q2_TUITION_2NF (
 StudentID         CHAR(10)     NOT NULL,
 Major       CHAR(10)    NOT NULL,
-Tuition       NUMBER    NOT NULL,
-PRIMARY KEY (StudentID)
+Tuition       NUMBER    NOT NULL
 );
 
 CREATE TABLE Q2_MAJOR_3NF (
 StudentID         CHAR(10)     NOT NULL,
-Major       CHAR(10)    NOT NULL,
-PRIMARY KEY (StudentID)
+Major       CHAR(10)    NOT NULL
 );
 
 CREATE TABLE Q2_TUITION_3NF (
 Major       CHAR(10)    NOT NULL,
-Tuition     NUMBER      NOT NULL,
-PRIMARY KEY (Major)
+Tuition     NUMBER      NOT NULL
 );
 
 DESC Q2_TUITION_2NF;
@@ -113,21 +107,17 @@ SELECT * FROM Q2_TUITION_3NF;
 CREATE TABLE Q3_CLASS_3NF (
 StudentID         CHAR(10)     NOT NULL,
 ClassID           CHAR(10)    NOT NULL,
-ProfessorID       CHAR(10)    NOT NULL,
-PRIMARY KEY (StudentID),
-PRIMARY KEY (ClassID),
+ProfessorID       CHAR(10)    NOT NULL
 );
 
 CREATE TABLE Q3_STUDENT_BCNF (
 StudentID         CHAR(10)     NOT NULL,
-ProfessorID       CHAR(10)    NOT NULL,
-PRIMARY KEY (StudentID)
+ProfessorID       CHAR(10)    NOT NULL
 );
 
 CREATE TABLE Q3_CLASS_BCNF (
 ProfessorID       CHAR(10)    NOT NULL,
-ClassID           CHAR(10)    NOT NULL,
-PRIMARY KEY (ProfessorID)
+ClassID           CHAR(10)    NOT NULL
 );
 
 DESC Q3_CLASS_3NF;
@@ -169,22 +159,17 @@ SELECT * FROM Q3_CLASS_BCNF;
 CREATE TABLE Q4_PROFESSOR_BCNF (
 ProfessorID       CHAR(10)     NOT NULL,
 LabID             CHAR(10)     NOT NULL,
-StudentID         CHAR(10)     NOT NULL,
-PRIMARY KEY (ProfessorID),
-PRIMARY KEY (StudentID),
-PRIMARY KEY (LabID),
+StudentID         CHAR(10)     NOT NULL
 );
 
 CREATE TABLE Q4_STUDENT_4NF (
 ProfessorID       CHAR(10)     NOT NULL,
-StudentID         CHAR(10)     NOT NULL,
-PRIMARY KEY (ProfessorID)
+StudentID         CHAR(10)     NOT NULL
 );
 
 CREATE TABLE Q4_LAB_4NF (
 ProfessorID       CHAR(10)    NOT NULL,
-LabID             CHAR(10)    NOT NULL,
-PRIMARY KEY (ProfessorID)
+LabID             CHAR(10)    NOT NULL
 );
 
 DESC Q4_PROFESSOR_BCNF;
