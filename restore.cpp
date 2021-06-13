@@ -1,3 +1,4 @@
+//2019111982 차영훈
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -22,15 +23,13 @@ static int check_valid_index(string &ref, string &short_read, int index, int mis
 }
 
 
-void restore_DNA(int k, int n) { // 10-3 BruteForce 버전입니다.
-	int size;
+void restore_DNA(int size, int n, int k, int file_num) {
 	ofstream writeFile;
-	string title = "reference_DNA.txt"; // 왜 my_DNA 를 ..?
+	string title = "reference_DNA.txt";
 	ifstream file(title);
 	stringstream ss;
 	ss << file.rdbuf(); // 한번에 파일을 읽고
 	string targetText = ss.str(); // 텍스트로 저장
-	size = targetText.size();
 
 	string outputTitle = "restore.txt";
 	cout << outputTitle << " 생성중 . . . (k : " << k << ", n : " << n << ")" << endl;
@@ -41,7 +40,7 @@ void restore_DNA(int k, int n) { // 10-3 BruteForce 버전입니다.
 	vector<int> start_index;
 
 	cout << "build BWT index" << endl;
-	bwt = BWT(targetText);
+	bwt = BWT(targetText, file_num);
 	BWT_find_pre(bwt, charset_index, tally, start_index);
 	cout << "done!" << endl;
 

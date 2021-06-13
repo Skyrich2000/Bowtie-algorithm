@@ -9,7 +9,6 @@
 #include <sstream>
 #include "main.h"
 
-#define FILE_SIZE 5
 #define MAX_SIZE 5000000000
 
 using namespace std;
@@ -200,14 +199,14 @@ static int BWT_filltherest(int n, string T) { // 나머지 부분 채우는 함�
 	return file_index;
 }
 
-void BWT_indexing(string &T) {
+void BWT_indexing(string &T, int file_size) {
 	ifstream f_final;
 	int file_num;
 
 	T.push_back('$');
 
 	cout << "Fill the rest" << "\n";
-	file_num = BWT_filltherest(FILE_SIZE, T);
+	file_num = BWT_filltherest(file_size, T);
 
 	cout << "Sort" << "\n";
 	BWT_sort(file_num);
@@ -232,13 +231,13 @@ void BWT_indexing(string &T) {
 	cout << "Done " << endl;
 }
 
-pair<vector<int>, string> BWT(string T) {
+pair<vector<int>, string> BWT(string T, int file_num) {
 	string ret;
 	vector<int> index;
 	string line;
 
 	// DO INDEXING!!
-	BWT_indexing(T);
+	BWT_indexing(T, file_num);
 
 	cout << "open index table" << endl;
 	ifstream f("bwt_index_table.txt");
@@ -315,8 +314,3 @@ vector<int> BWT_find(pair<vector<int>, string>& bwt, string q, vector<int> &char
 		ret.push_back(bwt.first[i]);
 	return (ret);
 }
-
-// int main() {
-// 	pair<vector<int>, string> bwt = BWT("123456789012345678901234567890123456789"); //29
-// 	cout << bwt.second << endl;
-// }

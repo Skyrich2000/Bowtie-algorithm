@@ -1,3 +1,4 @@
+//2019111982 차영훈
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -43,24 +44,54 @@ void compare(string title1, string title2) {
 
 }
 
-int main() {
-	int n = 100000;
-	int l = 100;
-	int m = 100000;
+void read_file(string my_dna, string short_read, int& N, int& m, int& k) {
+    ifstream file(my_dna);
+    stringstream ss;
+    ss << file.rdbuf(); // 한번에 파일을 읽고
+    string reference = ss.str(); // 텍스트로 저장
+    string my_dna_text = ss.str();
 
-	make_reference_DNA(n);
-	make_my_DNA(l);
-	make_shortread(l, m);
+    N = my_dna_text.size();
+
+    ifstream fin;
+    fin.open(short_read);
+    string line;
+    int i = 0;
+
+    while (!fin.eof()) { // shortRead 읽기
+        getline(fin, line);
+        if (line.size() == 0)
+            break;
+        k = line.size();
+        i++;
+    }
+    fin.close();
+    m = i;
+}
+
+int main() {
+	int n;
+	int l;
+	int m;
+    int file_num = 10;
+
+	//make_reference_DNA(n);
+	//make_my_DNA(l);
+	//make_shortread(l, m);
+
+    string my_dna = "./1000/20_70/mydna.txt";
+    string ref_dna ="./1000/20_70/ref.txt";
+    string short_read = "./1000/20_70/shortread.txt";
+
+    read_file(my_dna, short_read, n, m, l);
 
     clock_t start, end;
     start = clock();
-    restore_DNA(l, m); // 여기 부분을 구현하시면 됩니다
+    restore_DNA(n, m, l, file_num);
     end = clock();
     double duration = (double)(end - start) / CLOCKS_PER_SEC;
     cout << "duration(sec) : " << duration << "s" << endl;
 
-    string title1 = "my_DNA.txt";
-    string title2 = "restore.txt";
-	compare(title1, title2);
+	compare(my_dna, "restore.txt");
     return 0;
 }
